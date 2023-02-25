@@ -6,9 +6,9 @@ params_appliance = {
         'mean': 500,
         'std': 800,
         's2s_length': 128,
-        'houses': [1, 2, 3],
-        'channels': [11, 6, 16],
-        'train_build': [2, 3],
+        'houses': [1, 2, 3, 5],
+        'channels': [11, 6, 16, 3],
+        'train_build': [2, 3, 5],
         'test_build': 1
     },
     'fridge': {

@@ -6,8 +6,8 @@ import argparse
 import os
 
 
-DATA_DIRECTORY = '../../data/refit/REDD/'
-SAVE_PATH = 'kettle/'
+DATA_DIRECTORY = '../redd-original/'
+SAVE_PATH = './reddMicrowave/'
 AGG_MEAN = 522
 AGG_STD = 814
 def get_arguments():
@@ -15,7 +15,7 @@ def get_arguments():
                                      example for NILM')
     parser.add_argument('--data_dir', type=str, default=DATA_DIRECTORY,
                           help='The directory containing the REDD data')
-    parser.add_argument('--appliance_name', type=str, default='kettle',
+    parser.add_argument('--appliance_name', type=str, default='microwave',
                           help='which appliance you want to train: kettle,\
                           microwave,fridge,dishwasher,washingmachine')
     parser.add_argument('--aggregate_mean',type=int,default=AGG_MEAN,
@@ -166,6 +166,8 @@ def main():
 
         # Validation CSV
     val_len = int((len(train)/100)*validation_percent)
+
+    # MAYBE INTRODUCE SOME RANDOMNESS INSTEAD OF HOUSE 5 ONLY
     val = train.tail(val_len)
     val.reset_index(drop=True, inplace=True)
     train.drop(train.index[-val_len:], inplace=True)

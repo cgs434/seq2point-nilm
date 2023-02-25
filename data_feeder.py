@@ -57,9 +57,10 @@ class TrainSlidingWindowGenerator():
 
         # Loads the file and counts the number of rows it contains.
         print("Importing training file...")
+        print(self.__file_name, self.__crop, self.__skip_rows)
         chunks = pd.read_csv(self.__file_name, 
                             header=0, 
-                            nrows=self.__crop, 
+                            #nrows=self.__crop, 
                             skiprows=self.__skip_rows)
         print("Counting number of rows...")
         self.total_size = len(chunks)
@@ -96,6 +97,8 @@ class TrainSlidingWindowGenerator():
             outputs = data_array[:, 1]
 
             maximum_batch_size = inputs.size - 2 * self.__offset
+            print("maximum_batch_size: " + str(maximum_batch_size))
+
             self.total_num_samples = maximum_batch_size
             if self.__batch_size < 0:
                 self.__batch_size = maximum_batch_size
