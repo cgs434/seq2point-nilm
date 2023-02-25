@@ -60,7 +60,7 @@ class TrainSlidingWindowGenerator():
         print(self.__file_name, self.__crop, self.__skip_rows)
         chunks = pd.read_csv(self.__file_name, 
                             header=0, 
-                            #nrows=self.__crop, 
+                            nrows=self.__crop, 
                             skiprows=self.__skip_rows)
         print("Counting number of rows...")
         self.total_size = len(chunks)

@@ -203,17 +203,4 @@ class Tester():
 
         print(test_agg.shape, test_target.shape, testing_history.shape)
 
-        # Plot testing outcomes against ground truth.
-        plt.figure(2)
-        plt.plot(test_agg[self.__window_offset: -self.__window_offset], label="Aggregate")
-        plt.plot(test_target[:test_agg.size - (2 * self.__window_offset)], label="Ground Truth")
-        plt.plot(testing_history[:test_agg.size - (2 * self.__window_offset)], label="Predicted")
-        plt.title(self.__appliance + " " + self.__network_type + "(" + self.__algorithm + ")")
-        plt.ylabel("Power Value (Watts)")
-        plt.xlabel("Testing Window")
-        plt.legend()
-
-        file_path = "./" + "saved_models/" + self.__appliance + "_" + self.__algorithm + "_" + self.__network_type + "_test_figure_againstAttention.png"
-        plt.savefig(fname=file_path)
-
         plt.show()
