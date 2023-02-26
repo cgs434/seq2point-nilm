@@ -38,14 +38,25 @@ class Tester():
         self._input_window_length = input_window_length
         self.__window_size = self._input_window_length + 2
         self.__window_offset = int(0.5 * self.__window_size - 1)
-        #self.__number_of_windows = 800
-        self.__number_of_windows = 100
+        self.__number_of_windows = 800
+        #self.__number_of_windows = 100
 
         self.__test_directory = test_directory
         self.__saved_model_dir = saved_model_dir
 
         self.__log_file = log_file_dir
         logging.basicConfig(filename=self.__log_file,level=logging.INFO)
+
+    def mae(self, prediction, true):
+        MAE = abs(true - prediction)
+        MAE = np.sum(MAE)
+        MAE = MAE / len(prediction)
+        return MAE
+
+    def sae(self, prediction, true):
+        SAE = abs(true - prediction)
+        SAE = np.sum(SAE)
+        return SAE
 
     def test_model(self):
 
@@ -178,6 +189,9 @@ class Tester():
 
         """
 
+        comparable_metric_string = "Model values - MAE: ", str(self.mae(testing_history, test_target)), " SAE: ", str(self.sae(testing_history, test_target))
+        logging.info(comparable_metric_string)
+
         testing_history = ((testing_history * appliance_data[self.__appliance]["std"]) + appliance_data[self.__appliance]["mean"])
         test_target = ((test_target * appliance_data[self.__appliance]["std"]) + appliance_data[self.__appliance]["mean"])
         test_agg = (test_input.flatten() * mains_data["std"]) + mains_data["mean"]
@@ -188,9 +202,12 @@ class Tester():
         testing_history[testing_history < 0] = 0
         test_input[test_input < 0] = 0
 
+        comparable_metric_string = "Real values - MAE: ", str(self.mae(testing_history, test_target)), " SAE: ", str(self.sae(testing_history, test_target))
+        logging.info(comparable_metric_string)
+
         # Plot testing outcomes against ground truth.
         plt.figure(1)
-        plt.plot(test_agg[self.__window_offset: -self.__window_offset], label="Aggregate")
+        #plt.plot(test_agg[self.__window_offset: -self.__window_offset], label="Aggregate")
         plt.plot(test_target[:test_agg.size - (2 * self.__window_offset)], label="Ground Truth")
         plt.plot(testing_history[:test_agg.size - (2 * self.__window_offset)], label="Predicted")
         plt.title(self.__appliance + " " + self.__network_type + "(" + self.__algorithm + ")")
@@ -198,7 +215,7 @@ class Tester():
         plt.xlabel("Testing Window")
         plt.legend()
 
-        file_path = "./" + "saved_models/" + self.__appliance + "_" + self.__algorithm + "_" + self.__network_type + "_test_figure.png"
+        file_path = "./" + "saved_models/" + self.__appliance + "_" + self.__algorithm + "_" + self.__network_type + "_test_figureAgainstAttention (without mains).png"
         plt.savefig(fname=file_path)
 
         print(test_agg.shape, test_target.shape, testing_history.shape)

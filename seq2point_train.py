@@ -103,19 +103,19 @@ class Trainer():
         early_stopping = tf.keras.callbacks.EarlyStopping(monitor="val_loss", min_delta=self.__min_delta, patience=self.__patience, verbose=self.__verbose, mode="auto")
 
         ## can use checkpoint ###############################################
-        # checkpoint_filepath = "checkpoint/housedata/refit/"+ self.__appliance + "/"
-        # model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
-        #     filepath = checkpoint_filepath,
-        #     monitor='val_loss',
-        #     verbose=0,
-        #     save_best_only=True,
-        #     save_weights_only=False,
-        #     mode='auto',
-        #     save_freq='epoch')        
-        #callbacks=[early_stopping, model_checkpoint_callback]
+        checkpoint_filepath = "./checkpoints/"+ self.__appliance + ".hdf5"
+        model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
+             filepath = checkpoint_filepath,
+             monitor='val_loss',
+             verbose=0,
+             save_best_only=True,
+             save_weights_only=False,
+             mode='min',
+             save_freq='epoch')        
+        callbacks=[early_stopping, model_checkpoint_callback]
         ###################################################################
 
-        callbacks=[early_stopping]
+        #callbacks=[early_stopping]
         
         training_history = self.default_train(model, callbacks, steps_per_training_epoch)
 
