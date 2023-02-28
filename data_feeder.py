@@ -101,7 +101,7 @@ class TrainSlidingWindowGenerator():
             print("maximum_batch_size: " + str(maximum_batch_size))
 
             self.total_num_samples = maximum_batch_size
-            if self.__batch_size <= 0:
+            if self.__batch_size < 0:
                 self.__batch_size = maximum_batch_size
 
             indicies = np.arange(maximum_batch_size)
