@@ -30,7 +30,7 @@ class Trainer():
     def __init__(self, appliance, batch_size, crop, network_type, 
                  training_directory, validation_directory, save_model_dir,
                  epochs=100, input_window_length=599, validation_frequency = 1,
-                 patience=5, min_delta=1e-6, verbose=1):
+                 patience=3, min_delta=1e-6, verbose=1):
         self.__appliance = appliance
         self.__algorithm = network_type
         self.__network_type = network_type
@@ -50,6 +50,7 @@ class Trainer():
         self.__input_window_length = input_window_length
         self.__window_size = 2+self.__input_window_length
         self.__window_offset = int((0.5 * self.__window_size) - 1)
+        #self.__window_offset = int(1)
 
         print("__input_window_length: " + str(self.__input_window_length))
         print("__window_size: " + str(self.__window_size))
@@ -100,18 +101,18 @@ class Trainer():
         model = create_model(self.__input_window_length)
 
         model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=self.__learning_rate, beta_1=self.__beta_1, beta_2=self.__beta_2), loss=self.__loss, metrics=self.__metrics) 
-        early_stopping = tf.keras.callbacks.EarlyStopping(monitor="val_loss", min_delta=self.__min_delta, patience=self.__patience, verbose=self.__verbose, mode="auto")
+        early_stopping = tf.keras.callbacks.EarlyStopping(monitor="val_loss", min_delta=self.__min_delta, patience=self.__patience, verbose=self.__verbose, mode="min", restore_best_weights=True)
 
         ## can use checkpoint ###############################################
-        checkpoint_filepath = "./checkpoints/"+ self.__appliance + ".hdf5"
+        checkpoint_filepath = "./checkpoints/"+ self.__appliance + ".{epoch:03d}-{val_loss:.5f}.h5"
         model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
              filepath = checkpoint_filepath,
              monitor='val_loss',
              verbose=0,
-             save_best_only=True,
              save_weights_only=False,
              mode='min',
-             save_freq='epoch')        
+             save_freq="epoch",
+             save_best_only=False)        
         callbacks=[early_stopping, model_checkpoint_callback]
         ###################################################################
 

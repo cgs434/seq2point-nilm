@@ -40,6 +40,8 @@ class Tester():
         self.__window_offset = int(0.5 * self.__window_size - 1)
         self.__number_of_windows = 800
         #self.__number_of_windows = 100
+        #self.__number_of_windows = 550
+        #self.__number_of_windows = 80
 
         self.__test_directory = test_directory
         self.__saved_model_dir = saved_model_dir
@@ -207,6 +209,44 @@ class Tester():
 
         # Plot testing outcomes against ground truth.
         plt.figure(1)
+        plt.plot(test_agg[self.__window_offset: -self.__window_offset], label="Aggregate")
+        plt.plot(test_target[:test_agg.size - (2 * self.__window_offset)], label="Ground Truth")
+        plt.plot(testing_history[:test_agg.size - (2 * self.__window_offset)], label="Predicted")
+        plt.title(self.__appliance + " " + self.__network_type + "(" + self.__algorithm + ")")
+        plt.ylabel("Power Value (Watts)")
+        plt.xlabel("Testing Window")
+        plt.legend()
+
+        file_path = "./" + "saved_models/" + self.__appliance + "_" + self.__algorithm + "_" + self.__network_type + "_test_figure (everything).png"
+        plt.savefig(fname=file_path)
+
+        print(test_agg.shape, test_target.shape, testing_history.shape)
+
+        plt.figure(2)
+        plt.plot(test_agg[self.__window_offset: -self.__window_offset], label="Aggregate")
+        plt.plot(test_target[:test_agg.size - (2 * self.__window_offset)], label="Ground Truth")
+        #plt.plot(testing_history[:test_agg.size - (2 * self.__window_offset)], label="Predicted")
+        plt.title(self.__appliance + " " + self.__network_type + "(" + self.__algorithm + ")")
+        plt.ylabel("Power Value (Watts)")
+        plt.xlabel("Testing Window")
+        plt.legend()
+
+        file_path = "./" + "saved_models/" + self.__appliance + "_" + self.__algorithm + "_" + self.__network_type + "_test_figure (aggregate vs ground truth).png"
+        plt.savefig(fname=file_path)
+
+        plt.figure(3)
+        plt.plot(test_agg[self.__window_offset: -self.__window_offset], label="Aggregate")
+        #plt.plot(test_target[:test_agg.size - (2 * self.__window_offset)], label="Ground Truth")
+        plt.plot(testing_history[:test_agg.size - (2 * self.__window_offset)], label="Predicted")
+        plt.title(self.__appliance + " " + self.__network_type + "(" + self.__algorithm + ")")
+        plt.ylabel("Power Value (Watts)")
+        plt.xlabel("Testing Window")
+        plt.legend()
+
+        file_path = "./" + "saved_models/" + self.__appliance + "_" + self.__algorithm + "_" + self.__network_type + "_test_figure (aggregate vs predicted).png"
+        plt.savefig(fname=file_path)
+
+        plt.figure(4)
         #plt.plot(test_agg[self.__window_offset: -self.__window_offset], label="Aggregate")
         plt.plot(test_target[:test_agg.size - (2 * self.__window_offset)], label="Ground Truth")
         plt.plot(testing_history[:test_agg.size - (2 * self.__window_offset)], label="Predicted")
@@ -215,9 +255,43 @@ class Tester():
         plt.xlabel("Testing Window")
         plt.legend()
 
-        file_path = "./" + "saved_models/" + self.__appliance + "_" + self.__algorithm + "_" + self.__network_type + "_test_figureAgainstAttention (without mains).png"
+        file_path = "./" + "saved_models/" + self.__appliance + "_" + self.__algorithm + "_" + self.__network_type + "_test_figure (ground truth vs predicted).png"
         plt.savefig(fname=file_path)
 
-        print(test_agg.shape, test_target.shape, testing_history.shape)
+        plt.figure(5)
+        plt.plot(test_agg[self.__window_offset: -self.__window_offset], label="Aggregate")
+        #plt.plot(test_target[:test_agg.size - (2 * self.__window_offset)], label="Ground Truth")
+        #plt.plot(testing_history[:test_agg.size - (2 * self.__window_offset)], label="Predicted")
+        plt.title(self.__appliance + " " + self.__network_type + "(" + self.__algorithm + ")")
+        plt.ylabel("Power Value (Watts)")
+        plt.xlabel("Testing Window")
+        plt.legend()
 
-        plt.show()
+        file_path = "./" + "saved_models/" + self.__appliance + "_" + self.__algorithm + "_" + self.__network_type + "_test_figure (aggregate).png"
+        plt.savefig(fname=file_path)
+
+        plt.figure(6)
+        #plt.plot(test_agg[self.__window_offset: -self.__window_offset], label="Aggregate")
+        plt.plot(test_target[:test_agg.size - (2 * self.__window_offset)], label="Ground Truth")
+        #plt.plot(testing_history[:test_agg.size - (2 * self.__window_offset)], label="Predicted")
+        plt.title(self.__appliance + " " + self.__network_type + "(" + self.__algorithm + ")")
+        plt.ylabel("Power Value (Watts)")
+        plt.xlabel("Testing Window")
+        plt.legend()
+
+        file_path = "./" + "saved_models/" + self.__appliance + "_" + self.__algorithm + "_" + self.__network_type + "_test_figure (ground truth).png"
+        plt.savefig(fname=file_path)
+
+        plt.figure(7)
+        #plt.plot(test_agg[self.__window_offset: -self.__window_offset], label="Aggregate")
+        #plt.plot(test_target[:test_agg.size - (2 * self.__window_offset)], label="Ground Truth")
+        plt.plot(testing_history[:test_agg.size - (2 * self.__window_offset)], label="Predicted")
+        plt.title(self.__appliance + " " + self.__network_type + "(" + self.__algorithm + ")")
+        plt.ylabel("Power Value (Watts)")
+        plt.xlabel("Testing Window")
+        plt.legend()
+
+        file_path = "./" + "saved_models/" + self.__appliance + "_" + self.__algorithm + "_" + self.__network_type + "_test_figure (predicted).png"
+        plt.savefig(fname=file_path)
+
+        #plt.show()

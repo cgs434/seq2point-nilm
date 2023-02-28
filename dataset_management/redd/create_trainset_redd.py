@@ -154,6 +154,9 @@ def main():
         df_align['aggregate'] = (df_align['aggregate'] - args.aggregate_mean) / args.aggregate_std
         df_align[appliance_name] = (df_align[appliance_name] - mean) / std
 
+        print(len(df_align['aggregate']))
+        print(len(df_align[appliance_name]))
+
         if h == params_appliance[appliance_name]['test_build']:
             # Test CSV
             df_align.to_csv(args.save_path + appliance_name + '_test_.csv', mode='a', index=False, header=False)

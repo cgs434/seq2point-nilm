@@ -97,10 +97,11 @@ class TrainSlidingWindowGenerator():
             outputs = data_array[:, 1]
 
             maximum_batch_size = inputs.size - 2 * self.__offset
+            #maximum_batch_size = inputs.size
             print("maximum_batch_size: " + str(maximum_batch_size))
 
             self.total_num_samples = maximum_batch_size
-            if self.__batch_size < 0:
+            if self.__batch_size <= 0:
                 self.__batch_size = maximum_batch_size
 
             indicies = np.arange(maximum_batch_size)
@@ -118,6 +119,9 @@ class TrainSlidingWindowGenerator():
         # Skip rows where needed to allow data to be loaded properly when there is not enough memory.
         if (self.total_size >= self.__ram_threshold):
             number_of_chunks = np.arange(self.total_size / self.__chunk_size)
+            print("self.__chunk_size: " + str(self.__chunk_size))
+            print("self.total_size: " + str(self.total_size))
+            print("number_of_chunks: " + str(number_of_chunks))
             if self.__shuffle:
                 np.random.shuffle(number_of_chunks)
 
